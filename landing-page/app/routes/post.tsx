@@ -1,4 +1,4 @@
-import { Form, redirect } from "react-router";
+import { Form, Link, redirect, useFetcher, useNavigate } from "react-router";
 import type { Route } from "../+types/root";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
@@ -9,33 +9,64 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   return await res.json();
 }
 
-export async function clientAction({ request }: Route.ClientActionArgs) {
-  const formData = await request.formData();
-  const id = formData.get("id");
-  const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
-    method: "DELETE",
-  });
+// export async function clientAction({ request }: Route.ClientActionArgs) {
+//   try {
+//     const formData = await request.formData();
+//     const id = formData.get("id");
+//     const res = await fetch(
+//       `https://jsonplaceholder.typicode.com/posts/${id}`,
+//       {
+//         method: "DELETE",
+//       }
+//     );
+//     return {
+//       isDeleted: true,
+//     };
+//   } catch (err) {
+//     return {
+//       isDeleted: false,
+//     };
+//   }
+// }
 
-  console.table(res);
-  if (res.status == 200) {
-    alert("DELETE SUCCESSFULL");
+export async function clientAction({ params }: Route.ClientActionArgs) {
+  try {
+    const postId = params.postId;
+    await fetch(`https://jsonplaceholder.typicode.com/posts/${postId}`, {
+      method: "DELETE",
+    });
+    return {
+      isDeleted: true,
+    };
+  } catch (err) {
+    return {
+      isDeleted: false,
+    };
   }
-
-  return redirect(`/post/${id}`);
 }
 
 const Post = ({ loaderData }: Route.ComponentProps) => {
+  const fetcher = useFetcher();
+
+  const navigate = useNavigate();
+  
+  
+  const isDelete = fetcher.data?.isDeleted;
+
   return (
     <div>
-      <p>
-        <span className="font-bold text-amber-700/70">Title: </span>
-        {loaderData.title}
-      </p>
-
-      <Form method="delete">
-        <input type="text" name="id" className="border-1" />
+      {!isDelete && (
+        <p>
+          <span className="font-bold text-amber-700/70">Title: </span>
+          {loaderData.title}
+        </p>
+      )}
+      <Link to={"/about"}>About</Link>
+      <br />
+      <button onClick={() => navigate("/")}>Redirect</button>
+      <fetcher.Form method="delete">
         <button type="submit">Delete</button>
-      </Form>
+      </fetcher.Form>
     </div>
   );
 };

@@ -50,11 +50,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
 export default function App() {
   return (
     <>
-      {/* <Header /> */}
       <Hero />
       <Outlet />
-      <Footer />
-      {/* <Footer2 /> */}
+      <Footer2 />
     </>
   );
 }

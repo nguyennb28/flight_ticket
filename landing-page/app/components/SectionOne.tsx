@@ -4,7 +4,7 @@ import FirstPlaneLandingPage from "../assets/images/plane_3.jpg";
 const SectionOne = () => {
   return (
     <>
-      <div className="relative bg-white pb-[110px] pt-[120px] dark:bg-dark lg:pt-[150px]">
+      <div className="relative bg-white pb-[50px] pt-[120px] dark:bg-dark lg:pt-[150px]">
         <div className="container">
           <div className="-mx-4 flex flex-wrap">
             <div className="w-full px-4 lg:w-5/12">
@@ -20,7 +20,7 @@ const SectionOne = () => {
                 <ul className="flex flex-wrap items-center">
                   <li>
                     <a
-                      href="/#"
+                      href="#tracker"
                       className="inline-flex items-center justify-center rounded-md shadow-xl bg-sky-500 px-6 py-3 text-center text-base font-medium text-white hover:bg-blue-dark lg:px-7"
                     >
                       Bắt đầu

@@ -1,6 +1,7 @@
 import type { Route } from "./+types/home";
 import { Welcome } from "../welcome/welcome";
 import SectionOne from "~/components/SectionOne";
+import Tracker from "~/components/Tracker";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -14,6 +15,7 @@ export default function Home() {
   return (
     <>
       <SectionOne />
+      <Tracker />
     </>
   );
 }

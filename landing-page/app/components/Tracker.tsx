@@ -50,7 +50,7 @@ const Tracker = () => {
             <Table
               header={header}
               records={datas}
-              title="chuyến đi / departures"
+              title="chuyến đến / arrivals"
             />
           </div>
         </div>

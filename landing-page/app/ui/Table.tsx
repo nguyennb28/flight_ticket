@@ -11,9 +11,10 @@ interface Props {
   header: any[];
   records: any[] | null;
   title: string | null;
+  color_header: string | null;
 }
 
-const Table = ({ header, records, title }: Props) => {
+const Table = ({ header, records, title, color_header }: Props) => {
   return (
     <section className="bg-white dark:bg-dark py-20 lg:py-[120px]">
       <div className="container">
@@ -24,7 +25,9 @@ const Table = ({ header, records, title }: Props) => {
                 <h3 className="uppercase text-2xl font-semibold">{title}</h3>
               )}
               <table className="w-full table-auto">
-                <thead className="text-center bg-blue-800">
+                <thead
+                  className={`text-center ${color_header ? color_header : "bg-blue-800"}`}
+                >
                   <tr>
                     {header.map((elem, index) => (
                       <th className={TdStyle.ThStyle} key={index}>

@@ -47,10 +47,12 @@ const Tracker = () => {
       <div id="tracker" className="bg-white pb-[110px] dark:bg-dark">
         <div className="container">
           <div className="-mx-4">
+            {/* Arrivals */}
             <Table
               header={header}
               records={datas}
               title="chuyến đến / arrivals"
+              color_header="bg-red-800"
             />
           </div>
         </div>

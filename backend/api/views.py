@@ -22,7 +22,6 @@ class Flight(APIView):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        # flights = json.dumps(self.process_flights(param))
         flights = self.process_flights(param)
         flight_arrivals = flights[0]
         flight_departures = flights[1]
@@ -32,6 +31,7 @@ class Flight(APIView):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
+        print(self.detach_data(flight_arrivals))
         return Response(
             {
                 "flight_arrivals": flight_arrivals,
@@ -53,3 +53,135 @@ class Flight(APIView):
             return [flight_arrivals, flights_departures]
         else:
             return None
+
+    def detach_data(self, flights):
+        new_flights = []
+        for flight in flights:
+            if flight["flight"]:
+                new_flights.append(
+                    {
+                        "identification": (
+                            flight["flight"]["identification"]["number"]["default"]
+                            if flight["flight"]["identification"]["number"]["default"]
+                            else None
+                        ),
+                        "status": (
+                            flight["flight"]["status"]["text"]
+                            if flight["flight"]["status"]["text"]
+                            else None
+                        ),
+                        "arline": {
+                            "name": (
+                                flight["flight"]["airline"]["name"]
+                                if flight["flight"]["airline"]["name"]
+                                else None
+                            ),
+                            "code": {
+                                "iata": (
+                                    flight["flight"]["airline"]["code"]["iata"]
+                                    if flight["flight"]["airline"]["code"]["iata"]
+                                    else None
+                                ),
+                                "icao": (
+                                    flight["flight"]["airline"]["code"]["icao"]
+                                    if flight["flight"]["airline"]["code"]["icao"]
+                                    else None
+                                ),
+                            },
+                        },
+                        "airport": {
+                            "origin": {
+                                "code": {
+                                    "iata": (
+                                        flight["flight"]["airport"]["origin"]["code"][
+                                            "iata"
+                                        ]
+                                        if flight["flight"]["airport"]["origin"][
+                                            "code"
+                                        ]["iata"]
+                                        else None
+                                    ),
+                                    "icao": (
+                                        flight["flight"]["airport"]["origin"]["code"][
+                                            "icao"
+                                        ]
+                                        if flight["flight"]["airport"]["origin"][
+                                            "code"
+                                        ]["icao"]
+                                        else None
+                                    ),
+                                },
+                                # "timezone": (flight["flight"]["airport"]["origin"][""] ? ),
+                                "name": (
+                                    flight["flight"]["airport"]["origin"]["name"]
+                                    if flight["flight"]["airport"]["origin"]["name"]
+                                    else None
+                                ),
+                            },
+                        },
+                        "time": {
+                            "scheduled": {
+                                "departure": (
+                                    (
+                                        flight["flight"]["time"]["scheduled"][
+                                            "departure"
+                                        ]
+                                        if flight["flight"]["time"]["scheduled"][
+                                            "departure"
+                                        ]
+                                        else None
+                                    ),
+                                ),
+                                "arrival": (
+                                    (
+                                        flight["flight"]["time"]["scheduled"]["arrival"]
+                                        if flight["flight"]["time"]["scheduled"][
+                                            "arrival"
+                                        ]
+                                        else None
+                                    ),
+                                ),
+                            },
+                            "real": {
+                                "departure": (
+                                    flight["flight"]["time"]["real"]["departure"]
+                                    if flight["flight"]["time"]["real"]["departure"]
+                                    else None
+                                ),
+                                "arrival": (
+                                    flight["flight"]["time"]["real"]["arrival"]
+                                    if flight["flight"]["time"]["real"]["arrival"]
+                                    else None
+                                ),
+                            },
+                            "estimated": {
+                                "departure": (
+                                    flight["flight"]["time"]["estimated"]["departure"]
+                                    if flight["flight"]["time"]["estimated"][
+                                        "departure"
+                                    ]
+                                    else None
+                                ),
+                                "arrival": (
+                                    flight["flight"]["time"]["estimated"]["arrival"]
+                                    if flight["flight"]["time"]["estimated"]["arrival"]
+                                    else None
+                                ),
+                            },
+                            "other": {
+                                "eta": (
+                                    flight["flight"]["time"]["other"]["eta"]
+                                    if flight["flight"]["time"]["other"]["eta"]
+                                    else None
+                                ),
+                                "duration": (
+                                    flight["flight"]["time"]["other"]["duration"]
+                                    if flight["flight"]["time"]["other"]["duration"]
+                                    else None
+                                ),
+                            },
+                        },
+                    }
+                )
+
+        return new_flights

@@ -23,8 +23,9 @@ class Flight(APIView):
             )
 
         flights = self.process_flights(param)
-        flight_arrivals = flights[0]
-        flight_departures = flights[1]
+        airport = flights.get("airport")
+        flight_arrivals = flights.get("arrivals")
+        flight_departures = flights.get("departures")
         if not flights:
             return Response(
                 {"error": "Empty data"},
@@ -34,8 +35,11 @@ class Flight(APIView):
         print(self.detach_data(flight_arrivals))
         return Response(
             {
+                "count_flight_arrivals": len(flight_arrivals),
+                "count_flight_departures": len(flight_departures),
+                "airport": airport,
                 "flight_arrivals": flight_arrivals,
-                "flight_departures": flight_departures,
+                # "flight_departures": flight_departures,
             },
             status=status.HTTP_200_OK,
         )
@@ -43,6 +47,7 @@ class Flight(APIView):
     def process_flights(self, param):
         fr_api = FlightRadar24API()
         flights = fr_api.get_airport_details(param)
+        flight_airport = flights["airport"]["pluginData"]["details"]["name"]
         flight_arrivals = flights["airport"]["pluginData"]["schedule"]["arrivals"][
             "data"
         ]
@@ -50,7 +55,11 @@ class Flight(APIView):
             "data"
         ]
         if flight_arrivals:
-            return [flight_arrivals, flights_departures]
+            return {
+                "airport": flight_airport,
+                "arrivals": flight_arrivals,
+                "departures": flights_departures,
+            }
         else:
             return None
 
@@ -73,18 +82,18 @@ class Flight(APIView):
                         "arline": {
                             "name": (
                                 flight["flight"]["airline"]["name"]
-                                if flight["flight"]["airline"]["name"]
+                                if flight["flight"]["airline"]
                                 else None
                             ),
                             "code": {
                                 "iata": (
                                     flight["flight"]["airline"]["code"]["iata"]
-                                    if flight["flight"]["airline"]["code"]["iata"]
+                                    if flight["flight"]["airline"]
                                     else None
                                 ),
                                 "icao": (
                                     flight["flight"]["airline"]["code"]["icao"]
-                                    if flight["flight"]["airline"]["code"]["icao"]
+                                    if flight["flight"]["airline"]
                                     else None
                                 ),
                             },
@@ -111,7 +120,6 @@ class Flight(APIView):
                                         else None
                                     ),
                                 },
-                                # "timezone": (flight["flight"]["airport"]["origin"][""] ? ),
                                 "name": (
                                     flight["flight"]["airport"]["origin"]["name"]
                                     if flight["flight"]["airport"]["origin"]["name"]

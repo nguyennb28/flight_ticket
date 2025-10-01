@@ -1,46 +1,88 @@
 import Table from "~/ui/Table";
+import type { Route } from "../+types/root";
+import { useLoaderData } from "react-router";
+import axiosInstance from "~/axiosInstance";
+import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 
-const Tracker = () => {
+const Tracker = ({ loaderData }: Route.ComponentProps) => {
   const header = [
     {
-      vi: "Giờ bay",
-      en: "SOBT",
+      vi: "Kế hoạch",
+      en: "",
     },
     {
       vi: "Dự kiến",
-      en: "EOBT",
+      en: "",
     },
     {
-      vi: "Đến",
-      en: "Destination",
+      vi: "Đến từ",
+      en: "",
     },
     {
-      vi: "Hãng",
-      en: "Airlines",
+      vi: "Chuyến bay",
+      en: "",
     },
     {
-      vi: "Chuyến",
-      en: "Flight",
+      vi: "Phi cơ",
+      en: "",
     },
     {
-      vi: "Quầy",
-      en: "Counter",
+      vi: "Nhà ga",
+      en: "",
     },
     {
-      vi: "Cửa",
-      en: "Gate",
-    },
-    {
-      vi: "Ghi chú",
-      en: "Remarks",
+      vi: "Tình trạng",
+      en: "",
     },
   ];
+
+  // State
+  const [arrivals, setArrivals] = useState<any[]>([]);
+  const [departures, setDepartures] = useState<any[]>([]);
+
+  // Method
+  /**
+   *
+   * Get flights include
+   *    - airport, arrivals, departures
+   *
+   */
+  const getFlights = async () => {
+    try {
+      const response = await axiosInstance.get("/flights/?nickname=VVCI");
+      if (response.status == 200) {
+        const { flight_arrivals } = response.data;
+        setArrivals(flight_arrivals);
+      }
+    } catch (err: any) {
+      console.error(err);
+      Swal.fire({
+        icon: "error",
+        title: "Thông báo",
+        text: "Không thể lấy dữ liệu",
+      });
+    }
+  };
+
+  /**
+   * Clean states
+   */
+  const cleanState = () => {
+    setArrivals([]);
+    setDepartures([]);
+  };
 
   let datas = [];
 
   for (let i = 0; i <= 10; i++) {
-    datas.push(["1", "2", "3", "4", "5", "6", "7", "8"]);
+    datas.push(["1", "2", "3", "4", "5", "6", "7"]);
   }
+
+  useEffect(() => {
+    cleanState();
+    getFlights();
+  }, []);
 
   return (
     <>
@@ -48,12 +90,14 @@ const Tracker = () => {
         <div className="container">
           <div className="-mx-4">
             {/* Arrivals */}
-            <Table
-              header={header}
-              records={datas}
-              title="chuyến đến / arrivals"
-              color_header="bg-red-800"
-            />
+            {arrivals && (
+              <Table
+                header={header}
+                records={arrivals}
+                title="chuyến đến / arrivals"
+                color_header="bg-red-800"
+              />
+            )}
           </div>
         </div>
       </div>

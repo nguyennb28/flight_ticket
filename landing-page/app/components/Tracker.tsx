@@ -1,11 +1,9 @@
 import Table from "~/ui/Table";
-import type { Route } from "../+types/root";
-import { useLoaderData } from "react-router";
 import axiosInstance from "~/axiosInstance";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
-const Tracker = ({ loaderData }: Route.ComponentProps) => {
+const Tracker = () => {
   const header = [
     {
       vi: "Kế hoạch",

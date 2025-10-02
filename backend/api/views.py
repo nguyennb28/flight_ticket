@@ -65,6 +65,10 @@ class Flight(APIView):
         else:
             return None
 
+    """
+        Flight arrival data processing
+    """
+
     def detach_data(self, flights):
         new_flights = []
         for flight in flights:

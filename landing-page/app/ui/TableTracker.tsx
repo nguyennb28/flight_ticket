@@ -68,9 +68,14 @@ const Table = ({ header, records, title, color_header }: Props) => {
                             {record["airport"]["origin"]["name"]}
                           </td>
                           <td className={TdStyle.TdStyle}>
-                            {record["identification"] && record["airline"]
-                              ? `${record["identification"]} - ${record["airline"]["name"]}`
-                              : ""}
+                            <span>
+                              {record["identification"] &&
+                                record["identification"]}
+                            </span>
+                            <span>
+                              {record["airline"]["name"] &&
+                                ` - ${record["airline"]["name"]}`}
+                            </span>
                           </td>
                           {/* aircraft */}
                           <td className={TdStyle.TdStyle2}>

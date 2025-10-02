@@ -88,8 +88,14 @@ const Table = ({ header, records, title, color_header }: Props) => {
                                 : record[elem]["airport"]}
                             </td>
                             {/* status */}
-                            <td className={TdStyle.TdStyle2}>
-                              {record[elem]["status"]["text"]}
+                            <td
+                              className={`border-b border-[#E8E8E8] bg-white dark:border-dark dark:bg-dark-2 dark:text-dark-7 py-5 px-2 text-center text-base font-medium`}
+                            >
+                              <span
+                                className={`text-${record[elem]["status"]["generic"]["status"]["color"]}`}
+                              >
+                                {record[elem]["status"]["text"]}
+                              </span>
                             </td>
                           </>
                         ))}

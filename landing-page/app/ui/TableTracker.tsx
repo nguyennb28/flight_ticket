@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-
+import { formatDateTimeUTC } from "~/utils/first_util";
 const TdStyle = {
   ThStyle: `w-1/6 min-w-[160px] border-l border-transparent py-4 px-3 text-lg font-medium text-white lg:py-7 lg:px-4`,
   TdStyle: `text-dark border-b border-l border-[#E8E8E8] bg-[#F3F6FF] dark:bg-dark-3 dark:border-dark dark:text-dark-7 py-5 px-2 text-center text-base font-medium`,
@@ -12,27 +12,29 @@ interface Props {
   records: any[] | null;
   title: string | null;
   color_header: string | null;
+  last_update: string | null;
 }
 
-const Table = ({ header, records, title, color_header }: Props) => {
-  useEffect(() => {
-    // if (records) {
-    //   records.map((record, index) => {
-    //     Object.keys(record).map((elem) => {
-    //       console.log(record);
-    //     });
-    //   });
-    // }
-  }, []);
-
+const Table = ({
+  header,
+  records,
+  title,
+  color_header,
+  last_update,
+}: Props) => {
   return (
     <section className="bg-white dark:bg-dark py-20 lg:py-[120px]">
       <div className="container">
         <div className="flex flex-wrap -mx-4">
           <div className="w-full ">
             <div className="max-w-full overflow-x-auto">
-              {title && (
-                <h3 className="uppercase text-2xl font-semibold">{title}</h3>
+              {title && last_update && (
+                <div className="flex flex-col md:flex-row justify-between">
+                  <h3 className="uppercase text-2xl font-semibold">{title}</h3>
+                  <p className="text-2xl font-medium text-emerald-800">
+                    {`Lần cập nhật cuối cùng: ${formatDateTimeUTC(last_update)}`}
+                  </p>
+                </div>
               )}
               <table className="w-full table-auto">
                 <thead
@@ -92,7 +94,7 @@ const Table = ({ header, records, title, color_header }: Props) => {
                             className={`border-b border-[#E8E8E8] bg-white dark:border-dark dark:bg-dark-2 dark:text-dark-7 py-5 px-2 text-center text-base font-medium`}
                           >
                             <span
-                              className={`text-${record["status"]["color"]}`}
+                              className={`text-${record["status"]["color"]}-500`}
                             >
                               {record["status"]["text"]}
                             </span>

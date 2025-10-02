@@ -38,6 +38,8 @@ const Tracker = () => {
   // State
   const [arrivals, setArrivals] = useState<any[]>([]);
   const [departures, setDepartures] = useState<any[]>([]);
+  const [isSwitch, setIsSwitch] = useState<boolean>(false); //isSwitch to change between arrival and departure
+  const [lastUpdate, setLastUpdate] = useState<string>("");
 
   // Method
   /**
@@ -50,8 +52,9 @@ const Tracker = () => {
     try {
       const response = await axiosInstance.get("/flights/?nickname=VVCI");
       if (response.status == 200) {
-        const { flight_arrivals } = response.data;
+        const { flight_arrivals, current_time } = response.data;
         setArrivals(flight_arrivals);
+        setLastUpdate(current_time);
       }
     } catch (err: any) {
       console.error(err);
@@ -69,6 +72,7 @@ const Tracker = () => {
   const cleanState = () => {
     setArrivals([]);
     setDepartures([]);
+    setLastUpdate("");
   };
 
   let datas = [];
@@ -80,6 +84,14 @@ const Tracker = () => {
   useEffect(() => {
     cleanState();
     getFlights();
+    let i = 0;
+    const reGetFlights = setInterval(() => {
+      getFlights();
+      i++;
+      console.log(i);
+    }, 300000);
+
+    return () => clearInterval(reGetFlights);
   }, []);
 
   return (
@@ -88,12 +100,13 @@ const Tracker = () => {
         <div className="container">
           <div className="-mx-4">
             {/* Arrivals */}
-            {arrivals && (
+            {arrivals && !isSwitch && (
               <Table
                 header={header}
                 records={arrivals}
                 title="chuyến đến / arrivals"
                 color_header="bg-red-800"
+                last_update={lastUpdate}
               />
             )}
           </div>

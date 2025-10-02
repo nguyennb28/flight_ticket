@@ -4,7 +4,6 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from FlightRadar24 import FlightRadar24API
-import datetime
 import pytz
 from datetime import datetime as dt
 
@@ -39,6 +38,7 @@ class Flight(APIView):
             {
                 "count_flight_arrivals": len(flight_arrivals),
                 "count_flight_departures": len(flight_departures),
+                "current_time": dt.now(),
                 "airport": airport,
                 "flight_arrivals": flight_arrivals,
                 # "flight_departures": flight_departures,

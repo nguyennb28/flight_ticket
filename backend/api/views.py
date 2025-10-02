@@ -4,7 +4,9 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from FlightRadar24 import FlightRadar24API
-import json
+import datetime
+import pytz
+from datetime import datetime as dt
 
 # Create your views here.
 
@@ -24,7 +26,7 @@ class Flight(APIView):
 
         flights = self.process_flights(param)
         airport = flights.get("airport")
-        flight_arrivals = flights.get("arrivals")
+        flight_arrivals = self.detach_data(flights.get("arrivals"))
         flight_departures = flights.get("departures")
         if not flights:
             return Response(
@@ -32,7 +34,7 @@ class Flight(APIView):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        print(self.detach_data(flight_arrivals))
+        # print(self.detach_data(flight_arrivals))
         return Response(
             {
                 "count_flight_arrivals": len(flight_arrivals),
@@ -79,7 +81,7 @@ class Flight(APIView):
                             if flight["flight"]["status"]["text"]
                             else None
                         ),
-                        "arline": {
+                        "airline": {
                             "name": (
                                 flight["flight"]["airline"]["name"]
                                 if flight["flight"]["airline"]
@@ -127,13 +129,27 @@ class Flight(APIView):
                                 ),
                             },
                         },
+                        "aircraft": {
+                            "code": (
+                                flight["flight"]["aircraft"]["model"]["code"]
+                                if flight["flight"]["aircraft"]
+                                else None
+                            ),
+                            "registration": (
+                                flight["flight"]["aircraft"]["registration"]
+                                if flight["flight"]["aircraft"]
+                                else None
+                            ),
+                        },
                         "time": {
                             "scheduled": {
                                 "departure": (
                                     (
-                                        flight["flight"]["time"]["scheduled"][
-                                            "departure"
-                                        ]
+                                        self.formatDateTime(
+                                            flight["flight"]["time"]["scheduled"][
+                                                "departure"
+                                            ]
+                                        )
                                         if flight["flight"]["time"]["scheduled"][
                                             "departure"
                                         ]
@@ -142,7 +158,11 @@ class Flight(APIView):
                                 ),
                                 "arrival": (
                                     (
-                                        flight["flight"]["time"]["scheduled"]["arrival"]
+                                        self.formatDateTime(
+                                            flight["flight"]["time"]["scheduled"][
+                                                "arrival"
+                                            ]
+                                        )
                                         if flight["flight"]["time"]["scheduled"][
                                             "arrival"
                                         ]
@@ -152,26 +172,36 @@ class Flight(APIView):
                             },
                             "real": {
                                 "departure": (
-                                    flight["flight"]["time"]["real"]["departure"]
+                                    self.formatDateTime(
+                                        flight["flight"]["time"]["real"]["departure"]
+                                    )
                                     if flight["flight"]["time"]["real"]["departure"]
                                     else None
                                 ),
                                 "arrival": (
-                                    flight["flight"]["time"]["real"]["arrival"]
+                                    self.formatDateTime(
+                                        flight["flight"]["time"]["real"]["arrival"]
+                                    )
                                     if flight["flight"]["time"]["real"]["arrival"]
                                     else None
                                 ),
                             },
                             "estimated": {
                                 "departure": (
-                                    flight["flight"]["time"]["estimated"]["departure"]
+                                    self.formatDateTime(
+                                        flight["flight"]["time"]["estimated"][
+                                            "departure"
+                                        ]
+                                    )
                                     if flight["flight"]["time"]["estimated"][
                                         "departure"
                                     ]
                                     else None
                                 ),
                                 "arrival": (
-                                    flight["flight"]["time"]["estimated"]["arrival"]
+                                    self.formatDateTime(
+                                        flight["flight"]["time"]["estimated"]["arrival"]
+                                    )
                                     if flight["flight"]["time"]["estimated"]["arrival"]
                                     else None
                                 ),
@@ -189,7 +219,33 @@ class Flight(APIView):
                                 ),
                             },
                         },
+                        "terminal": (
+                            flight["flight"]["airport"]["origin"]["info"]["terminal"]
+                            if flight["flight"]["airport"]
+                            else None
+                        ),
+                        "status": {
+                            "text": (
+                                flight["flight"]["status"]["text"]
+                                if flight["flight"]["status"]
+                                else None
+                            ),
+                            "color": (
+                                flight["flight"]["status"]["generic"]["status"]["color"]
+                                if flight["flight"]["status"]
+                                else None
+                            ),
+                        },
                     }
                 )
 
         return new_flights
+
+    def formatDateTime(self, value):
+        if not value:
+            return ""
+        utc_dt = dt.fromtimestamp(int(value), tz=pytz.UTC)
+        vietnam_tz = pytz.timezone("Asia/Ho_Chi_Minh")
+        vietnam_dt = utc_dt.astimezone(vietnam_tz)
+
+        return vietnam_dt.strftime("%d-%m-%Y %H:%M")

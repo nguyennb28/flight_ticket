@@ -1,4 +1,4 @@
-import Table from "~/ui/Table";
+import Table from "~/ui/TableTracker";
 import axiosInstance from "~/axiosInstance";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";

@@ -19,7 +19,7 @@ const Table = ({ header, records, title, color_header }: Props) => {
     // if (records) {
     //   records.map((record, index) => {
     //     Object.keys(record).map((elem) => {
-    //       console.log(record[elem]);
+    //       console.log(record);
     //     });
     //   });
     // }
@@ -51,54 +51,49 @@ const Table = ({ header, records, title, color_header }: Props) => {
                   {records &&
                     records.map((record, index) => (
                       <tr key={index}>
-                        {Object.keys(record).map((elem: any, idx: any) => (
-                          <>
-                            {/* Scheduled -> arrival */}
-                            <td className={TdStyle.TdStyle2}>
-                              {record[elem]["time"]["scheduled"]["arrival"]}
-                            </td>
-                            {/* Estimated -> arrival */}
-                            <td className={TdStyle.TdStyle}>
-                              {record[elem]["time"]["estimated"]["arrival"]
-                                ? record[elem]["time"]["estimated"]["arrival"]
-                                : ""}
-                            </td>
-                            {/* origin -> name -> position -> region -> city */}
-                            <td className={TdStyle.TdStyle2}>
-                              {record[elem]["airport"]["origin"]["name"]}
-                            </td>
-                            <td className={TdStyle.TdStyle}>
-                              {record[elem]["airline"] &&
-                              record[elem]["identification"]
-                                ? `${record[elem]["airline"]["name"]} - ${record[elem]["identification"]["number"]["default"]}`
-                                : ""}
-                            </td>
-                            {/* aircraft */}
-                            <td className={TdStyle.TdStyle2}>
-                              {record[elem]["aircraft"]
-                                ? `${record[elem]["aircraft"]["model"]["code"]} ${record[elem]["aircraft"]["registration"]}`
-                                : ""}
-                            </td>
-                            {/* terminal */}
-                            <td className={TdStyle.TdStyle}>
-                              {record[elem]["airport"]
-                                ? record[elem]["airport"]["origin"]["info"][
-                                    "terminal"
-                                  ]
-                                : record[elem]["airport"]}
-                            </td>
-                            {/* status */}
-                            <td
-                              className={`border-b border-[#E8E8E8] bg-white dark:border-dark dark:bg-dark-2 dark:text-dark-7 py-5 px-2 text-center text-base font-medium`}
+                        {/* {Object.keys(record).map((elem: any, idx: any) => ( */}
+                        <>
+                          {/* Scheduled -> arrival */}
+                          <td className={TdStyle.TdStyle2}>
+                            {record["time"]["scheduled"]["arrival"]}
+                          </td>
+                          {/* Estimated -> arrival */}
+                          <td className={TdStyle.TdStyle}>
+                            {record["time"]["estimated"]["arrival"]
+                              ? record["time"]["estimated"]["arrival"]
+                              : ""}
+                          </td>
+                          {/* origin -> name -> position -> region -> city */}
+                          <td className={TdStyle.TdStyle2}>
+                            {record["airport"]["origin"]["name"]}
+                          </td>
+                          <td className={TdStyle.TdStyle}>
+                            {record["identification"] && record["airline"]
+                              ? `${record["identification"]} - ${record["airline"]["name"]}`
+                              : ""}
+                          </td>
+                          {/* aircraft */}
+                          <td className={TdStyle.TdStyle2}>
+                            {`${record["aircraft"]["code"]} ${record["aircraft"]["registration"]}`
+                              ? `${record["aircraft"]["code"]} ${record["aircraft"]["registration"]}`
+                              : ""}
+                          </td>
+                          {/* terminal */}
+                          <td className={TdStyle.TdStyle}>
+                            {record["terminal"] ? record["terminal"] : ""}
+                          </td>
+                          {/* status */}
+                          <td
+                            className={`border-b border-[#E8E8E8] bg-white dark:border-dark dark:bg-dark-2 dark:text-dark-7 py-5 px-2 text-center text-base font-medium`}
+                          >
+                            <span
+                              className={`text-${record["status"]["color"]}`}
                             >
-                              <span
-                                className={`text-${record[elem]["status"]["generic"]["status"]["color"]}`}
-                              >
-                                {record[elem]["status"]["text"]}
-                              </span>
-                            </td>
-                          </>
-                        ))}
+                              {record["status"]["text"]}
+                            </span>
+                          </td>
+                        </>
+                        {/* ))} */}
                       </tr>
                     ))}
                   {/* <tr>

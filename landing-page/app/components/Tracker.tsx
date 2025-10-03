@@ -2,6 +2,7 @@ import Table from "~/ui/TableTracker";
 import axiosInstance from "~/axiosInstance";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
+import { FaPlaneArrival, FaPlaneDeparture } from "react-icons/fa";
 
 const Tracker = () => {
   const header = [
@@ -99,6 +100,34 @@ const Tracker = () => {
       <div id="tracker" className="bg-white pb-[110px] dark:bg-dark">
         <div className="container">
           <div className="-mx-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 justify-between justify-items-center">
+              <div className="w-full">
+                <button
+                  onClick={() => {
+                    setIsSwitch(false);
+                  }}
+                  className="block cursor-pointer p-10 w-full bg-red-800 text-white font-semibold text-2xl uppercase hover:bg-red-700"
+                >
+                  <div className="flex items-center justify-center">
+                    <FaPlaneArrival size={40}/>
+                    <span>Chuyến đến</span>
+                  </div>
+                </button>
+              </div>
+              <div className="w-full">
+                <button
+                  onClick={() => {
+                    setIsSwitch(true);
+                  }}
+                  className="block cursor-pointer p-10 w-full bg-blue-800 text-white font-semibold text-2xl uppercase hover:bg-blue-700"
+                >
+                  <div className="flex items-center justify-center">
+                    <FaPlaneDeparture size={40} />
+                    <span>Chuyến đi</span>
+                  </div>
+                </button>
+              </div>
+            </div>
             {/* Arrivals */}
             {arrivals && !isSwitch && (
               <Table

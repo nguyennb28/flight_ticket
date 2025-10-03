@@ -23,11 +23,11 @@ const Table = ({
   last_update,
 }: Props) => {
   return (
-    <section className="bg-white dark:bg-dark py-20 lg:py-[120px]">
+    <section className="bg-white dark:bg-dark py-10">
       <div className="container">
         <div className="flex flex-wrap -mx-4">
           <div className="w-full ">
-            <div className="max-w-full overflow-x-auto">
+            <div className="max-w-full overflow-auto h-[500px] no-scrollbar">
               {title && last_update && (
                 <div className="flex flex-col md:flex-row justify-between">
                   <h3 className="uppercase text-2xl font-semibold">{title}</h3>
@@ -36,7 +36,7 @@ const Table = ({
                   </p>
                 </div>
               )}
-              <table className="w-full table-auto">
+              <table className="w-full table-auto overflow-auto">
                 <thead
                   className={`text-center ${color_header ? color_header : "bg-blue-800"}`}
                 >

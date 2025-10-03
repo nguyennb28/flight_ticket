@@ -27,7 +27,7 @@ const Table = ({
       <div className="container">
         <div className="flex flex-wrap -mx-4">
           <div className="w-full ">
-            <div className="max-w-full overflow-auto h-[500px] no-scrollbar">
+            <div className="max-w-full overflow-auto h-[650px] no-scrollbar">
               {title && last_update && (
                 <div className="flex flex-col md:flex-row justify-between">
                   <h3 className="uppercase text-2xl font-semibold">{title}</h3>

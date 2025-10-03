@@ -15,7 +15,7 @@ interface Props {
   last_update: string | null;
 }
 
-const Table = ({
+const ArrivalTable = ({
   header,
   records,
   title,
@@ -57,7 +57,9 @@ const Table = ({
                         <>
                           {/* Scheduled -> arrival */}
                           <td className={TdStyle.TdStyle2}>
-                            {record["time"]["scheduled"]["arrival"]}
+                            {record["time"]["scheduled"]["arrival"]
+                              ? record["time"]["scheduled"]["arrival"]
+                              : ""}
                           </td>
                           {/* Estimated -> arrival */}
                           <td className={TdStyle.TdStyle}>
@@ -67,7 +69,9 @@ const Table = ({
                           </td>
                           {/* origin -> name -> position -> region -> city */}
                           <td className={TdStyle.TdStyle2}>
-                            {record["airport"]["origin"]["name"]}
+                            {record["airport"]["origin"]["name"]
+                              ? record["airport"]["origin"]["name"]
+                              : ""}
                           </td>
                           <td className={TdStyle.TdStyle}>
                             <span>
@@ -81,9 +85,19 @@ const Table = ({
                           </td>
                           {/* aircraft */}
                           <td className={TdStyle.TdStyle2}>
-                            {`${record["aircraft"]["code"]} ${record["aircraft"]["registration"]}`
+                            {/* {`${record["aircraft"]["code"]} ${record["aircraft"]["registration"]}`
                               ? `${record["aircraft"]["code"]} ${record["aircraft"]["registration"]}`
-                              : ""}
+                              : ""} */}
+                            <span>
+                              {record["aircraft"]["code"]
+                                ? record["aircraft"]["code"]
+                                : ""}
+                            </span>
+                            <span>
+                              {record["aircraft"]["registration"]
+                                ? record["aircraft"]["registration"]
+                                : ""}
+                            </span>
                           </td>
                           {/* terminal */}
                           <td className={TdStyle.TdStyle}>
@@ -96,7 +110,9 @@ const Table = ({
                             <span
                               className={`text-${record["status"]["color"]}-500`}
                             >
-                              {record["status"]["text"]}
+                              {record["status"]["text"]
+                                ? record["status"]["text"]
+                                : ""}
                             </span>
                           </td>
                         </>
@@ -161,4 +177,4 @@ const Table = ({
   );
 };
 
-export default Table;
+export default ArrivalTable;

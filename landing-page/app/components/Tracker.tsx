@@ -1,11 +1,12 @@
-import Table from "~/ui/TableTracker";
+import ArrivalTable from "~/ui/ArrivalTable";
+import DepartureTable from "~/ui/DepartureTable";
 import axiosInstance from "~/axiosInstance";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { FaPlaneArrival, FaPlaneDeparture } from "react-icons/fa";
 
 const Tracker = () => {
-  const header = [
+  const template_header = [
     {
       vi: "Kế hoạch",
       en: "",
@@ -23,7 +24,7 @@ const Tracker = () => {
       en: "",
     },
     {
-      vi: "Phi cơ",
+      vi: "Máy bay",
       en: "",
     },
     {
@@ -41,6 +42,7 @@ const Tracker = () => {
   const [departures, setDepartures] = useState<any[]>([]);
   const [isSwitch, setIsSwitch] = useState<boolean>(false); //isSwitch to change between arrival and departure
   const [lastUpdate, setLastUpdate] = useState<string>("");
+  const [tableHeader, setTableHeader] = useState<any[]>(template_header);
 
   // Method
   /**
@@ -53,8 +55,10 @@ const Tracker = () => {
     try {
       const response = await axiosInstance.get("/flights/?nickname=VVCI");
       if (response.status == 200) {
-        const { flight_arrivals, current_time } = response.data;
+        const { flight_arrivals, flight_departures, current_time } =
+          response.data;
         setArrivals(flight_arrivals);
+        setDepartures(flight_departures);
         setLastUpdate(current_time);
       }
     } catch (err: any) {
@@ -89,11 +93,26 @@ const Tracker = () => {
     const reGetFlights = setInterval(() => {
       getFlights();
       i++;
-      console.log(i);
     }, 300000);
 
     return () => clearInterval(reGetFlights);
   }, []);
+
+  useEffect(() => {
+    if (isSwitch) {
+      setTableHeader((prev) =>
+        prev.map((item) =>
+          item.vi == "Đến từ" ? { ...item, vi: "Nơi đến" } : item
+        )
+      );
+    } else {
+      setTableHeader((prev) =>
+        prev.map((item) =>
+          item.vi == "Nơi đến" ? { ...item, vi: "Đến từ" } : item
+        )
+      );
+    }
+  }, [isSwitch]);
 
   return (
     <>
@@ -109,7 +128,7 @@ const Tracker = () => {
                   className="block cursor-pointer p-10 w-full bg-red-800 text-white font-semibold text-2xl uppercase hover:bg-red-700"
                 >
                   <div className="flex items-center justify-center">
-                    <FaPlaneArrival size={40}/>
+                    <FaPlaneArrival size={40} />
                     <span>Chuyến đến</span>
                   </div>
                 </button>
@@ -130,11 +149,20 @@ const Tracker = () => {
             </div>
             {/* Arrivals */}
             {arrivals && !isSwitch && (
-              <Table
-                header={header}
+              <ArrivalTable
+                header={tableHeader}
                 records={arrivals}
                 title="chuyến đến / arrivals"
                 color_header="bg-red-800"
+                last_update={lastUpdate}
+              />
+            )}
+            {departures && isSwitch && (
+              <DepartureTable
+                header={tableHeader}
+                records={departures}
+                title="nơi đến / departures"
+                color_header="bg-blue-800"
                 last_update={lastUpdate}
               />
             )}

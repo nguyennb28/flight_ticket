@@ -364,6 +364,18 @@ class Flight(APIView):
                                 )
                             }
                         },
+                        "status": {
+                            "text": (
+                                flight["flight"]["status"]["text"]
+                                if flight["flight"]["status"]["text"]
+                                else None
+                            ),
+                            "color": (
+                                flight["flight"]["status"]["generic"]["status"]["color"]
+                                if flight["flight"]["status"]["generic"]
+                                else None
+                            )
+                        }
                     }
                 )
         return new_flights

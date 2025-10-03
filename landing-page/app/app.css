@@ -16,3 +16,8 @@ body {
     color-scheme: dark;
   }
 }
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

@@ -31,14 +31,14 @@ const Table = ({
               {title && last_update && (
                 <div className="flex flex-col md:flex-row justify-between">
                   <h3 className="uppercase text-2xl font-semibold">{title}</h3>
-                  <p className="text-2xl font-medium text-emerald-800">
+                  <p className="text-2xl font-medium text-emerald-800 dark:text-emerald-300">
                     {`Lần cập nhật cuối cùng: ${formatDateTimeUTC(last_update)}`}
                   </p>
                 </div>
               )}
-              <table className="w-full table-auto overflow-auto">
+              <table className="w-full table-auto overflow-auto relative">
                 <thead
-                  className={`text-center ${color_header ? color_header : "bg-blue-800"}`}
+                  className={`text-center ${color_header ? color_header : "bg-blue-800"} sticky top-0`}
                 >
                   <tr>
                     {header.map((elem, index) => (

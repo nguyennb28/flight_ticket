@@ -439,4 +439,25 @@ class AccessInforViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return AccessInfor.objects.all()
-    
+
+    def create(self, request, *args, **kwargs):
+        ip = request.data.get("ip")
+
+        exist = AccessInfor.objects.filter(ip_addr=ip).exists()
+        if exist:
+            return Response(
+                {"message": "Check AccessInfor", "isExist": True},
+                status=status.HTTP_200_OK,
+            )
+        serializer = self.get_serializer(data=request.data)
+        if not serializer.is_valid(raise_exception=True):
+            return Response(
+                {
+                    "error": serializer.errors,
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        # try:
+            # access_infor_data = serializer.validated_data,
+            # access_info = AccessInfor.objects.create(**access_infor_data)
+            

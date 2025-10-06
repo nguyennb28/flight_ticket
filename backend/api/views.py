@@ -6,7 +6,9 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from FlightRadar24 import FlightRadar24API
 import pytz
 from datetime import datetime as dt
-
+from .models import AccessInfor
+from rest_framework import viewsets
+from .serializers import AccessInforSerializer
 
 # Create your views here.
 
@@ -273,28 +275,48 @@ class Flight(APIView):
                         "airport": {
                             "destination": {
                                 "code": {
-                                    "iata": (flight["flight"]["airport"]["destination"]["code"]["iata"] if
-                                             flight["flight"]["airport"]["destination"] else None),
-                                    "icao": (flight["flight"]["airport"]["destination"]["code"]["icao"] if
-                                             flight["flight"]["airport"]["destination"] else None),
+                                    "iata": (
+                                        flight["flight"]["airport"]["destination"][
+                                            "code"
+                                        ]["iata"]
+                                        if flight["flight"]["airport"]["destination"]
+                                        else None
+                                    ),
+                                    "icao": (
+                                        flight["flight"]["airport"]["destination"][
+                                            "code"
+                                        ]["icao"]
+                                        if flight["flight"]["airport"]["destination"]
+                                        else None
+                                    ),
                                 },
                                 # Airport name
                                 "name": (
                                     flight["flight"]["airport"]["destination"]["name"]
-                                    if flight["flight"]["airport"]["destination"]["name"]
+                                    if flight["flight"]["airport"]["destination"][
+                                        "name"
+                                    ]
                                     else None
                                 ),
                                 # Destination name
                                 "position": (
-                                    flight["flight"]["airport"]["destination"]["position"]["region"]["city"]
-                                    if flight["flight"]["airport"]["destination"]["position"]["region"]["city"]
+                                    flight["flight"]["airport"]["destination"][
+                                        "position"
+                                    ]["region"]["city"]
+                                    if flight["flight"]["airport"]["destination"][
+                                        "position"
+                                    ]["region"]["city"]
                                     else None
                                 ),
                                 "terminal": (
-                                    flight["flight"]["airport"]["destination"]["info"]["terminal"]
-                                    if flight["flight"]["airport"]["destination"]["info"]["terminal"]
+                                    flight["flight"]["airport"]["destination"]["info"][
+                                        "terminal"
+                                    ]
+                                    if flight["flight"]["airport"]["destination"][
+                                        "info"
+                                    ]["terminal"]
                                     else None
-                                )
+                                ),
                             },
                         },
                         "aircraft": {
@@ -312,41 +334,61 @@ class Flight(APIView):
                                 flight["flight"]["aircraft"]["registration"]
                                 if flight["flight"]["aircraft"]["registration"]
                                 else None
-                            )
+                            ),
                         },
                         "time": {
                             "scheduled": {
                                 "departure": (
-                                    self.formatDateTime(flight["flight"]["time"]["scheduled"]["departure"])
-                                    if flight["flight"]["time"]["scheduled"]["departure"]
+                                    self.formatDateTime(
+                                        flight["flight"]["time"]["scheduled"][
+                                            "departure"
+                                        ]
+                                    )
+                                    if flight["flight"]["time"]["scheduled"][
+                                        "departure"
+                                    ]
                                     else None
                                 ),
                                 "arrival": (
-                                    self.formatDateTime(flight["flight"]["time"]["scheduled"]["arrival"])
+                                    self.formatDateTime(
+                                        flight["flight"]["time"]["scheduled"]["arrival"]
+                                    )
                                     if flight["flight"]["time"]["scheduled"]["arrival"]
                                     else None
                                 ),
                             },
                             "real": {
                                 "departure": (
-                                    self.formatDateTime(flight["flight"]["time"]["real"]["departure"])
+                                    self.formatDateTime(
+                                        flight["flight"]["time"]["real"]["departure"]
+                                    )
                                     if flight["flight"]["time"]["real"]["departure"]
                                     else None
                                 ),
                                 "arrival": (
-                                    self.formatDateTime(flight["flight"]["time"]["real"]["arrival"])
+                                    self.formatDateTime(
+                                        flight["flight"]["time"]["real"]["arrival"]
+                                    )
                                     if flight["flight"]["time"]["real"]["arrival"]
                                     else None
                                 ),
                             },
                             "estimated": {
                                 "departure": (
-                                    self.formatDateTime(flight["flight"]["time"]["estimated"]["departure"])
-                                    if flight["flight"]["time"]["estimated"]["departure"]
+                                    self.formatDateTime(
+                                        flight["flight"]["time"]["estimated"][
+                                            "departure"
+                                        ]
+                                    )
+                                    if flight["flight"]["time"]["estimated"][
+                                        "departure"
+                                    ]
                                     else None
                                 ),
                                 "arrival": (
-                                    self.formatDateTime(flight["flight"]["time"]["estimated"]["arrival"])
+                                    self.formatDateTime(
+                                        flight["flight"]["time"]["estimated"]["arrival"]
+                                    )
                                     if flight["flight"]["time"]["estimated"]["arrival"]
                                     else None
                                 ),
@@ -361,8 +403,8 @@ class Flight(APIView):
                                     flight["flight"]["time"]["other"]["duration"]
                                     if flight["flight"]["time"]["other"]["duration"]
                                     else None
-                                )
-                            }
+                                ),
+                            },
                         },
                         "status": {
                             "text": (
@@ -374,8 +416,8 @@ class Flight(APIView):
                                 flight["flight"]["status"]["generic"]["status"]["color"]
                                 if flight["flight"]["status"]["generic"]
                                 else None
-                            )
-                        }
+                            ),
+                        },
                     }
                 )
         return new_flights
@@ -388,3 +430,13 @@ class Flight(APIView):
         vietnam_dt = utc_dt.astimezone(vietnam_tz)
 
         return vietnam_dt.strftime("%d-%m-%Y %H:%M")
+
+
+class AccessInforViewSet(viewsets.ModelViewSet):
+    queryset = AccessInfor.objects.all()
+    serializer_class = AccessInforSerializer
+    permission_classes = [AllowAny]
+
+    def get_queryset(self):
+        return AccessInfor.objects.all()
+    

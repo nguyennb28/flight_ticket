@@ -2,7 +2,6 @@ import type { Route } from "./+types/home";
 import { Welcome } from "../welcome/welcome";
 import SectionOne from "~/components/SectionOne";
 import Tracker from "~/components/Tracker";
-import { useEffect } from "react";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -13,11 +12,6 @@ export function meta({}: Route.MetaArgs) {
 
 export default function Home() {
   // return <Blog />;
-
-  useEffect(() => {
-    const userAgentString = navigator;
-    console.log(userAgentString.userAgent);
-  }, []);
 
   return (
     <>

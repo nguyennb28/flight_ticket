@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from rest_framework.views import Response, APIView
 from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
@@ -9,6 +8,7 @@ from datetime import datetime as dt
 from .models import AccessInfor
 from rest_framework import viewsets
 from .serializers import AccessInforSerializer
+from django.db import transaction
 
 # Create your views here.
 
@@ -440,6 +440,7 @@ class AccessInforViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return AccessInfor.objects.all()
 
+    @transaction.atomic
     def create(self, request, *args, **kwargs):
         ip = request.data.get("ip")
 
@@ -457,7 +458,16 @@ class AccessInforViewSet(viewsets.ModelViewSet):
                 },
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        # try:
-            # access_infor_data = serializer.validated_data,
-            # access_info = AccessInfor.objects.create(**access_infor_data)
-            
+        try:
+            self.perform_create(serializer)
+            headers = self.get_success_headers(serializer.data)
+            return Response(
+                serializer.data,
+                status=status.HTTP_200_OK,
+                headers=headers,
+            )
+        except Exception as e:
+            return Response(
+                e,
+                status=status.HTTP_400_BAD_REQUEST,
+            )

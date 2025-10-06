@@ -11,6 +11,8 @@ import type { Route } from "./+types/root";
 import "./app.css";
 import Hero from "./components/second-header";
 import Footer2 from "./components/second-footer";
+import { collectAccessInfor, getIPclient } from "./utils/first_util";
+import { useEffect } from "react";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -44,6 +46,15 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
+  useEffect(() => {
+    const callAccessInfo = setTimeout(() => {
+      getIPclient();
+      return true;
+    }, 1000);
+
+    return () => clearTimeout(callAccessInfo);
+  }, []);
+
   return (
     <>
       <Hero />

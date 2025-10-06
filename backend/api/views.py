@@ -442,9 +442,9 @@ class AccessInforViewSet(viewsets.ModelViewSet):
 
     @transaction.atomic
     def create(self, request, *args, **kwargs):
-        ip = request.data.get("ip")
+        ip_addr = request.data.get("ip_addr")
 
-        exist = AccessInfor.objects.filter(ip_addr=ip).exists()
+        exist = AccessInfor.objects.filter(ip_addr=ip_addr).exists()
         if exist:
             return Response(
                 {"message": "Check AccessInfor", "isExist": True},

@@ -444,8 +444,11 @@ class AccessInforViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         ip_addr = request.data.get("ip_addr")
 
-        exist = AccessInfor.objects.filter(ip_addr=ip_addr).exists()
+        exist = AccessInfor.objects.filter(ip_addr=ip_addr).first()
         if exist:
+            # update updated_at column
+            exist.updated_at = dt.now()
+            exist.save()
             return Response(
                 {"message": "Check AccessInfor", "isExist": True},
                 status=status.HTTP_200_OK,

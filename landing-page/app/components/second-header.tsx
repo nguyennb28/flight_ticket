@@ -39,10 +39,12 @@ const Navbar = () => {
                 alt="logo"
                 className="w-full hidden dark:block"
               /> */}
-              <p className="font-semibold text-3xl text-dark dark:text-white">CatBi Airport</p>
+              <p className="font-semibold text-3xl text-dark dark:text-white">
+                CatBi Airport
+              </p>
             </a>
           </div>
-          <div className="flex w-full items-center justify-between px-4">
+          <div className="flex w-full items-center justify-end px-4">
             <div>
               <button
                 onClick={() => setOpen(!open)}
@@ -62,7 +64,7 @@ const Navbar = () => {
                 } `}
               >
                 <ul className="block lg:flex">
-                  <ListItem NavLink="/#">Trang chủ</ListItem>
+                  <ListItem NavLink="/">Trang chủ</ListItem>
                   <ListItem NavLink="/#">Vé</ListItem>
                   <ListItem NavLink="/#">Về chúng tôi</ListItem>
                   <ListItem NavLink="/#">Liên hệ</ListItem>
@@ -70,7 +72,8 @@ const Navbar = () => {
               </nav>
             </div>
             <div className="hidden justify-end pr-16 sm:flex lg:pr-0">
-              <a
+              {/* Empty section */}
+              {/* <a
                 href="/#"
                 className="px-7 py-3 text-base font-medium text-dark hover:text-primary dark:text-white"
               >
@@ -82,7 +85,7 @@ const Navbar = () => {
                 className="rounded-lg bg-cyan-light px-7 py-3 text-base font-medium text-white hover:bg-opacity-90"
               >
                 Đăng ký
-              </a>
+              </a> */}
             </div>
           </div>
         </div>

@@ -29,7 +29,7 @@ const Navbar = () => {
         <div className="relative -mx-4 flex items-center justify-between">
           <div className="w-60 max-w-full px-4">
             <a href="/#" className="block w-full py-5">
-              <img
+              {/* <img
                 src="https://cdn.tailgrids.com/assets/images/logo/logo.svg"
                 alt="logo"
                 className="w-full dark:hidden"
@@ -38,7 +38,8 @@ const Navbar = () => {
                 src="https://cdn.tailgrids.com/assets/images/logo/logo-white.svg"
                 alt="logo"
                 className="w-full hidden dark:block"
-              />
+              /> */}
+              <p className="font-semibold text-3xl text-dark dark:text-white">CatBi Airport</p>
             </a>
           </div>
           <div className="flex w-full items-center justify-between px-4">

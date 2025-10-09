@@ -11,7 +11,7 @@ const Footer2 = () => {
             <div className="w-full px-4 sm:w-2/3 lg:w-3/12">
               <div className="mb-10 w-full">
                 <a href="/#" className="mb-6 inline-block max-w-[160px]">
-                  <img
+                  {/* <img
                     src="https://cdn.tailgrids.com/assets/images/logo/logo.svg"
                     alt="logo"
                     className="max-w-full dark:hidden"
@@ -20,7 +20,10 @@ const Footer2 = () => {
                     src="https://cdn.tailgrids.com/assets/images/logo/logo-white.svg"
                     alt="logo"
                     className="max-w-full hidden dark:block"
-                  />
+                  /> */}
+                  <p className="font-semibold text-3xl text-dark dark:text-white">
+                    CatBi Airport
+                  </p>
                 </a>
                 <p className="mb-7 text-base text-body-color dark:text-dark-6">
                   Sed ut perspiciatis undmnis is iste natus error sit amet
@@ -56,7 +59,9 @@ const Footer2 = () => {
                       </defs>
                     </svg>
                   </span>
-                  <span>+012 (345) 678 99</span>
+                  <a href="tel:+84941894354">
+                    <span>+84 941 894 354</span>
+                  </a>
                 </p>
               </div>
             </div>

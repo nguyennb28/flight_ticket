@@ -10,21 +10,18 @@ const Footer2 = () => {
           <div className="-mx-4 flex flex-wrap justify-between">
             <div className="w-full px-4 sm:w-2/3 lg:w-3/12">
               <div className="mb-10 w-full">
-                <a href="/#" className="mb-6 inline-block max-w-[160px]">
-                  {/* <img
-                    src="https://cdn.tailgrids.com/assets/images/logo/logo.svg"
-                    alt="logo"
-                    className="max-w-full dark:hidden"
-                  />
-                  <img
-                    src="https://cdn.tailgrids.com/assets/images/logo/logo-white.svg"
-                    alt="logo"
-                    className="max-w-full hidden dark:block"
-                  /> */}
-                  <p className="font-semibold text-3xl text-dark dark:text-white">
+                <div className="flex items-center">
+                  <a href="/#" className="mb-6 inline-block max-w-[160px]">
+                    <img
+                      src="https://giapham.biz/wp-content/uploads/2025/10/catbi_airport.png"
+                      alt="logo"
+                      className="w-full"
+                    />
+                  </a>
+                  <p className="font-semibold text-2xl text-dark dark:text-white">
                     CatBi Airport
                   </p>
-                </a>
+                </div>
                 <p className="mb-7 text-base text-body-color dark:text-dark-6">
                   Cập nhật thông tin chuyến bay của{" "}
                   <span className="text-black dark:text-white italic font-medium border-b hover:text-sky-600">

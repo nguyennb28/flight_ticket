@@ -27,22 +27,17 @@ const Navbar = () => {
     <header className={`absolute left-0 top-0 z-20 flex w-full items-center`}>
       <div className="container">
         <div className="relative -mx-4 flex items-center justify-between">
-          <div className="w-60 max-w-full px-4">
+          <div className="w-60 max-w-full px-4 flex items-center">
             <a href="/#" className="block w-full py-5">
-              {/* <img
-                src="https://cdn.tailgrids.com/assets/images/logo/logo.svg"
-                alt="logo"
-                className="w-full dark:hidden"
-              />
               <img
-                src="https://cdn.tailgrids.com/assets/images/logo/logo-white.svg"
+                src={`https://giapham.biz/wp-content/uploads/2025/10/catbi_airport.png`}
                 alt="logo"
-                className="w-full hidden dark:block"
-              /> */}
-              <p className="font-semibold text-3xl text-dark dark:text-white">
-                CatBi Airport
-              </p>
+                className="w-full"
+              />
             </a>
+            <p className="font-semibold text-2xl text-dark dark:text-white">
+              CatBi Airport
+            </p>
           </div>
           <div className="flex w-full items-center justify-end px-4">
             <div>

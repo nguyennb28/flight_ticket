@@ -29,7 +29,7 @@ const Tracker = () => {
       en: "",
     },
     {
-      vi: "Nhà ga",
+      vi: "Check-in terminal",
       en: "",
     },
     {
@@ -103,15 +103,27 @@ const Tracker = () => {
   useEffect(() => {
     if (isSwitch) {
       setTableHeader((prev) =>
-        prev.map((item) =>
-          item.vi == "Đến từ" ? { ...item, vi: "Nơi đến" } : item
-        )
+        prev.map((item) => {
+          if (item.vi == "Đến từ") {
+            item = { ...item, vi: "Nơi đến" };
+          }
+          if (item.vi == "Check-in terminal") {
+            item = { ...item, vi: "Check-out terminal" };
+          }
+          return item;
+        })
       );
     } else {
       setTableHeader((prev) =>
-        prev.map((item) =>
-          item.vi == "Nơi đến" ? { ...item, vi: "Đến từ" } : item
-        )
+        prev.map((item) => {
+          if (item.vi == "Nơi đến") {
+            item = { ...item, vi: "Đến từ" };
+          }
+          if (item.vi == "Check-out terminal") {
+            item = { ...item, vi: "Check-in terminal" };
+          }
+          return item;
+        })
       );
     }
   }, [isSwitch]);
@@ -159,7 +171,7 @@ const Tracker = () => {
                 >
                   <div className="flex items-center justify-center">
                     <FaMap size={40} />
-                    <span>Bản đồ</span>
+                    <span>Bản đồ sân bay</span>
                   </div>
                 </button>
               </div>

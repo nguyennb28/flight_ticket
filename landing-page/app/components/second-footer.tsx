@@ -68,7 +68,7 @@ const Footer2 = () => {
             <LinkGroup header="Đơn vị">
               <NavLink link="/#" label="Liên hệ & Hỗ trợ" />
               <NavLink link="/#" label="Về Catbi Airport" />
-              <NavLink link="/#" label="Cài đặt & Quyền riêng tư" />
+              <NavLink link="/policy" label="Cài đặt & Quyền riêng tư" />
             </LinkGroup>
             <LinkGroup header="Liên kết nhanh">
               <NavLink link="/#" label="Đặt vé" />

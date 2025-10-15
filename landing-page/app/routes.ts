@@ -13,6 +13,7 @@ export default [
   route("about", "routes/about.tsx"),
   route("post/:postId", "routes/post.tsx"),
   route("blog/", "blog/Blog.tsx"),
+  route("policy", "routes/policy.tsx"),
 
   // Nested route
   layout("routes/dashboard.tsx", [

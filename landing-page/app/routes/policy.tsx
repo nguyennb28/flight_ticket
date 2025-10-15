@@ -14,7 +14,7 @@ const Policy = () => {
       {/* <h1>Policy</h1> */}
       <div className="relative bg-white dark:bg-dark pb-[50px] pt-[120px] lg:pt-[200px]">
         <div className="container">
-          <div className="relative -mx-4 px-4 flex items-start justify-start">
+          <div className="relative -mx-4 px-4 flex items-start justify-between">
             <div className="sidebar">
               <VerticalMenu />
             </div>

@@ -2,7 +2,7 @@ const VerticalMenu = () => {
   return (
     <>
       <div className="relative">
-        <ul className="space-y-1 z-20 bg-white rounded-lg w-50">
+        <ul className="space-y-1 z-20 bg-white dark:bg-dark rounded-lg w-50">
           <li>
             <a
               href="#vietnamese"

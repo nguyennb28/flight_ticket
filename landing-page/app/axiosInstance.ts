@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const REST_API_URL = "http://127.0.0.1:8000";
+// const REST_API_URL = "http://127.0.0.1:8000";
+const REST_API_URL = import.meta.env.VITE_URL
 
 const axiosInstance = axios.create({
   baseURL: `${REST_API_URL}/api`,
